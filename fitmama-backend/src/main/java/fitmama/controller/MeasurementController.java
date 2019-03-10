@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 @RestController
 public class MeasurementController {
 
+	// TEST
 	@Autowired
 	private MeasurementService service;
 
