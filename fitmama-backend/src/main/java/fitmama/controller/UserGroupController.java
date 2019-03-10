@@ -1,14 +1,13 @@
 package fitmama.controller;
 
+import fitmama.model.User;
 import fitmama.model.UserGroup;
 import fitmama.model.UserGroupJoin;
 import fitmama.repo.UserGroupJoinRepository;
 import fitmama.service.UserGroupJoinService;
 import fitmama.service.UserGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -36,4 +35,13 @@ public class UserGroupController {
 		return joinService.findByGroupId(id);
 	}
 
+	@PostMapping("/group/save")
+	public Mono<UserGroup> save(@RequestBody UserGroup group) {
+		return service.save(group);
+	}
+
+	@DeleteMapping("/group/{id}/delete")
+	public void delete(@PathVariable Long id) {
+		service.delete(id);
+	}
 }

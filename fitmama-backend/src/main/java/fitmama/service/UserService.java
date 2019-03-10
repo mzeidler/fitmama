@@ -25,6 +25,7 @@ public class UserService {
     }
 
     public Mono<User> findById(Long id) {
+        // TODO: check isPresent()
         return Mono.just(userRepository.findById(id).get()).publishOn(dbScheduler);
     }
 
@@ -32,4 +33,7 @@ public class UserService {
         return Mono.fromCallable(() -> userRepository.saveAndFlush(user)).publishOn(dbScheduler);
     }
 
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
 }
