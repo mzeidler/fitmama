@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/fitmama-backend/fitmama-backend.iml" filepath="$PROJECT_DIR$/fitmama-backend/fitmama-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fitmama-frontend/fitmama-frontend.iml" filepath="$PROJECT_DIR$/fitmama-frontend/fitmama-frontend.iml" />
+    </modules>
+  </component>
+</project>
