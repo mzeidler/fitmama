@@ -41,6 +41,16 @@ public class UserController {
 		return service.save(user);
 	}
 
+	@PostMapping("/user/{userid}/join/{groupid}")
+	public void join(@PathVariable Long userid, @PathVariable Long groupid) {
+		joinService.join(userid, groupid);
+	}
+
+	@PostMapping("/user/{userid}/leave/{groupid}")
+	public void leave(@PathVariable Long userid, @PathVariable Long groupid) {
+		joinService.leave(userid, groupid);
+	}
+
 	@DeleteMapping("/user/{id}/delete")
 	public void delete(@PathVariable Long id) {
 		service.delete(id);
