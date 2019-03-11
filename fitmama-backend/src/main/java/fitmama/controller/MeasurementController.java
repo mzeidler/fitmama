@@ -6,9 +6,7 @@ import fitmama.model.User;
 import fitmama.service.MeasurementService;
 import fitmama.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -27,5 +25,15 @@ public class MeasurementController {
 	@GetMapping("/measurements/{userid}")
 	public Flux<Measurement> findByUserId(@PathVariable Long userid) {
 		return service.findByUserId(userid);
+	}
+
+	@PostMapping("/measurements/{userid}/add")
+	public Mono<Measurement> save(@PathVariable Long userid, @RequestBody Measurement measurement) {
+		return service.save(userid, measurement);
+	}
+
+	@DeleteMapping("/measurements/{measurementId}/remove")
+	public void delete(@PathVariable Long measurementId) {
+		service.delete(measurementId);
 	}
 }

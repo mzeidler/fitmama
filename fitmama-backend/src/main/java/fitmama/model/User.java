@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Data
@@ -23,6 +25,21 @@ public class User {
     
     private String lastName;
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    private String address;
+
+    private String city;
+
+    private String zipcode;
+
+    private String mobile;
+
     private String email;
+
+    private Date birthDate;
+
+    private BigDecimal height;
 
 }

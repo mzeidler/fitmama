@@ -16,43 +16,51 @@ import reactor.core.publisher.Mono;
 public class UserController {
 
 	@Autowired
-	private UserService service;
+	private UserService userService;
 
 	@Autowired
 	private UserGroupJoinService joinService;
 
+	/**
+	 * Users
+	 */
+	@CrossOrigin
 	@GetMapping("/users")
 	public Flux<User> findAll() {
-		return service.findAll();
+		return userService.findAll();
 	}
 
 	@GetMapping("/user/{id}")
 	public Mono<User> findById(@PathVariable Long id) {
-		return service.findById(id);
-	}
-
-	@GetMapping("/user/{id}/groups")
-	public Flux<UserGroupJoin> findByUserId(@PathVariable Long id) {
-		return joinService.findByUserId(id);
+		return userService.findById(id);
 	}
 
 	@PostMapping("/user/save")
-	public Mono<User> save(@RequestBody User user) {
-		return service.save(user);
+	public Mono<User> saveUser(@RequestBody User user) {
+		return userService.saveUser(user);
+	}
+
+	@DeleteMapping("/user/{id}/delete")
+	public void deleteUser(@PathVariable Long id) {
+		userService.deleteUser(id);
+	}
+
+	/**
+	 * Groups
+	 */
+	@GetMapping("/user/{id}/groups")
+	public Flux<UserGroupJoin> findGroupsByUserId(@PathVariable Long id) {
+		return joinService.findByUserId(id);
 	}
 
 	@PostMapping("/user/{userid}/join/{groupid}")
-	public void join(@PathVariable Long userid, @PathVariable Long groupid) {
+	public void joinToGroup(@PathVariable Long userid, @PathVariable Long groupid) {
 		joinService.join(userid, groupid);
 	}
 
 	@PostMapping("/user/{userid}/leave/{groupid}")
-	public void leave(@PathVariable Long userid, @PathVariable Long groupid) {
+	public void leaveGroup(@PathVariable Long userid, @PathVariable Long groupid) {
 		joinService.leave(userid, groupid);
 	}
 
-	@DeleteMapping("/user/{id}/delete")
-	public void delete(@PathVariable Long id) {
-		service.delete(id);
-	}
 }

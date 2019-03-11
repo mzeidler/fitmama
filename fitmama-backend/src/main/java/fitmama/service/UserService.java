@@ -25,15 +25,18 @@ public class UserService {
     }
 
     public Mono<User> findById(Long id) {
-        // TODO: check isPresent()
-        return Mono.just(userRepository.findById(id).get()).publishOn(dbScheduler);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return Mono.just(userRepository.findById(id).get()).publishOn(dbScheduler);
+        }
+        throw new RuntimeException("User with id=" + id + " does not exist");
     }
 
-    public Mono<User> save(User user) {
+    public Mono<User> saveUser(User user) {
         return Mono.fromCallable(() -> userRepository.saveAndFlush(user)).publishOn(dbScheduler);
     }
 
-    public void delete(Long id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 }
