@@ -13,6 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@CrossOrigin
 public class UserController {
 
 	@Autowired
@@ -24,11 +25,11 @@ public class UserController {
 	/**
 	 * Users
 	 */
-	@CrossOrigin
 	@GetMapping("/users")
 	public Flux<User> findAll() {
 		return userService.findAll();
 	}
+
 
 	@GetMapping("/user/{id}")
 	public Mono<User> findById(@PathVariable Long id) {
