@@ -5,9 +5,9 @@ import fitmama.model.UserGroup;
 import fitmama.repo.UserGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserGroupService {
@@ -15,20 +15,22 @@ public class UserGroupService {
     @Autowired
     private UserGroupRepository groupRepository;
 
-    @Autowired
-    private Scheduler dbScheduler;
-
-    public Flux<UserGroup> findAll() {
-        return Flux.fromIterable(groupRepository.findAll()).publishOn(dbScheduler);
+    public List<UserGroup> findAll() {
+        return groupRepository.findAll();
     }
 
-    public Mono<UserGroup> findById(Long id) {
-        // TODO: check isPresent()
-        return Mono.just(groupRepository.findById(id).get()).publishOn(dbScheduler);
+    public UserGroup findById(Long id) {
+        Optional<UserGroup> userGroup = groupRepository.findById(id);
+
+        if (userGroup.isPresent())  {
+            return userGroup.get();
+        }
+
+        throw new RuntimeException("UserGroup with id=" + id + " does not exist");
     }
 
-    public Mono<UserGroup> save(UserGroup group) {
-        return Mono.fromCallable(() -> groupRepository.saveAndFlush(group)).publishOn(dbScheduler);
+    public UserGroup save(UserGroup group) {
+        return groupRepository.saveAndFlush(group);
     }
 
     public void delete(Long id) {

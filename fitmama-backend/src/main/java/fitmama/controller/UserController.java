@@ -9,8 +9,8 @@ import fitmama.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -26,18 +26,18 @@ public class UserController {
 	 * Users
 	 */
 	@GetMapping("/users")
-	public Flux<User> findAll() {
+	public List<User> findAll() {
 		return userService.findAll();
 	}
 
 
 	@GetMapping("/user/{id}")
-	public Mono<User> findById(@PathVariable Long id) {
+	public User findById(@PathVariable Long id) {
 		return userService.findById(id);
 	}
 
 	@PostMapping("/user/save")
-	public Mono<User> saveUser(@RequestBody User user) {
+	public User saveUser(@RequestBody User user) {
 		return userService.saveUser(user);
 	}
 
@@ -50,7 +50,7 @@ public class UserController {
 	 * Groups
 	 */
 	@GetMapping("/user/{id}/groups")
-	public Flux<UserGroupJoin> findGroupsByUserId(@PathVariable Long id) {
+	public List<UserGroupJoin> findGroupsByUserId(@PathVariable Long id) {
 		return joinService.findByUserId(id);
 	}
 

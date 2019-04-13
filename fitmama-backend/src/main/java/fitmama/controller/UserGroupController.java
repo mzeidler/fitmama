@@ -8,8 +8,8 @@ import fitmama.service.UserGroupJoinService;
 import fitmama.service.UserGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RestController
 public class UserGroupController {
@@ -21,22 +21,22 @@ public class UserGroupController {
 	private UserGroupJoinService joinService;
 
 	@GetMapping("/groups")
-	public Flux<UserGroup> findAll() {
+	public List<UserGroup> findAll() {
 		return service.findAll();
 	}
 
 	@GetMapping("/group/{id}")
-	public Mono<UserGroup> findById(@PathVariable Long id) {
+	public UserGroup findById(@PathVariable Long id) {
 		return service.findById(id);
 	}
 
 	@GetMapping("/group/{id}/members")
-	public Flux<UserGroupJoin> findByGroupId(@PathVariable Long id) {
+	public List<UserGroupJoin> findByGroupId(@PathVariable Long id) {
 		return joinService.findByGroupId(id);
 	}
 
 	@PostMapping("/group/save")
-	public Mono<UserGroup> save(@RequestBody UserGroup group) {
+	public UserGroup save(@RequestBody UserGroup group) {
 		return service.save(group);
 	}
 

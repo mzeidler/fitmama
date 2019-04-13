@@ -7,28 +7,27 @@ import fitmama.service.MeasurementService;
 import fitmama.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RestController
 public class MeasurementController {
 
-	// TEST2
 	@Autowired
 	private MeasurementService service;
 
 	@GetMapping("/measurements/{userid}/{type}")
-	public Flux<Measurement> findByUserId(@PathVariable Long userid, @PathVariable MeasurementType type) {
+	public List<Measurement> findByUserId(@PathVariable Long userid, @PathVariable MeasurementType type) {
 		return service.findByUserId(userid, type);
 	}
 
 	@GetMapping("/measurements/{userid}")
-	public Flux<Measurement> findByUserId(@PathVariable Long userid) {
+	public List<Measurement> findByUserId(@PathVariable Long userid) {
 		return service.findByUserId(userid);
 	}
 
 	@PostMapping("/measurements/{userid}/add")
-	public Mono<Measurement> save(@PathVariable Long userid, @RequestBody Measurement measurement) {
+	public Measurement save(@PathVariable Long userid, @RequestBody Measurement measurement) {
 		return service.save(userid, measurement);
 	}
 

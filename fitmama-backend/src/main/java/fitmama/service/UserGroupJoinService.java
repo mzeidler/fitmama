@@ -9,11 +9,9 @@ import fitmama.repo.UserGroupRepository;
 import fitmama.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.scheduler.Scheduler;
 
-import java.security.acl.Group;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,15 +26,12 @@ public class UserGroupJoinService {
     @Autowired
     private UserGroupRepository groupRepository;
 
-    @Autowired
-    private Scheduler dbScheduler;
-
-    public Flux<UserGroupJoin> findByUserId(Long userId) {
-        return Flux.fromIterable(groupJoinRepository.findByUser_Id(userId)).publishOn(dbScheduler);
+    public List<UserGroupJoin> findByUserId(Long userId) {
+        return groupJoinRepository.findByUser_Id(userId);
     }
 
-    public Flux<UserGroupJoin> findByGroupId(Long groupId) {
-        return Flux.fromIterable(groupJoinRepository.findByGroup_Id(groupId)).publishOn(dbScheduler);
+    public List<UserGroupJoin> findByGroupId(Long groupId) {
+        return groupJoinRepository.findByGroup_Id(groupId);
     }
 
     public void join(Long userId, Long groupId) {
