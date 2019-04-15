@@ -25,23 +25,23 @@ public class UserController {
 	/**
 	 * Users
 	 */
-	@GetMapping("/users")
+	@GetMapping("/api/users")
 	public List<User> findAll() {
 		return userService.findAll();
 	}
 
 
-	@GetMapping("/user/{id}")
+	@GetMapping("/api/user/{id}")
 	public User findById(@PathVariable Long id) {
 		return userService.findById(id);
 	}
 
-	@PostMapping("/user/save")
+	@PostMapping("/api/user/save")
 	public User saveUser(@RequestBody User user) {
 		return userService.saveUser(user);
 	}
 
-	@DeleteMapping("/user/{id}/delete")
+	@DeleteMapping("/api/user/{id}/delete")
 	public void deleteUser(@PathVariable Long id) {
 		userService.deleteUser(id);
 	}
