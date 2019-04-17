@@ -23,6 +23,24 @@ public class MenuController {
 		return menuService.findAll();
 	}
 
+	@PostMapping("/api/menus/add")
+	public Menu add(@RequestBody Menu menu) {
+		return menuService.add(menu);
+	}
+
+	@PostMapping("/api/menus/update")
+	public Menu update(@RequestBody Menu menu) {
+		return menuService.update(menu);
+	}
+
+	@DeleteMapping("/api/menus/{id}/delete")
+	public void delete(@PathVariable Long id) {
+		menuService.delete(id);
+	}
+
+	//******************************************************
+	// TEST
+	//******************************************************
 	@GetMapping("/api/menus/test")
 	public String test() {
 		return menuService.test();

@@ -26,6 +26,17 @@ public class MenuService {
         return menuRepository.findAll();
     }
 
+    public Menu add(Menu menu) {
+        return menuRepository.saveAndFlush(menu);
+    }
+
+    public Menu update(Menu menu) {
+        return menuRepository.saveAndFlush(menu);
+    }
+
+    public void delete(Long id) {
+        menuRepository.deleteById(id);
+    }
 
     //******************************************************
     // TEST
