@@ -38,6 +38,17 @@ public class MenuController {
 		menuService.delete(id);
 	}
 
+	@PostMapping("/api/menus/{menuid}/adduser/{userid}")
+	public void addUser(@PathVariable Long menuid, @PathVariable Long userid) {
+		menuService.addUser(menuid, userid);
+	}
+
+	@PostMapping("/api/menus/{menuid}/removeuser/{userid}")
+	public void removeUser(@PathVariable Long menuid, @PathVariable Long userid) {
+		menuService.removeUser(menuid, userid);
+	}
+
+
 	//******************************************************
 	// TEST
 	//******************************************************

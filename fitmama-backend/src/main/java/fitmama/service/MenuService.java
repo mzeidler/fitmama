@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MenuService {
@@ -38,6 +39,44 @@ public class MenuService {
         menuRepository.deleteById(id);
     }
 
+    public void addUser(Long menuid, Long userid) {
+        Optional<Menu> menuOptional = menuRepository.findById(menuid);
+        Optional<User> userOptional = userRepository.findById(userid);
+
+        if (menuOptional.isPresent() && userOptional.isPresent()) {
+            Menu menu = menuOptional.get();
+            User user = userOptional.get();
+
+            if (!exists(menu, user)) {
+                menu.getUsers().add(user);
+                menuRepository.saveAndFlush(menu);
+            }
+        }
+    }
+
+    public void removeUser(Long menuid, Long userid) {
+        Optional<Menu> menuOptional = menuRepository.findById(menuid);
+        Optional<User> userOptional = userRepository.findById(userid);
+
+        if (menuOptional.isPresent() && userOptional.isPresent()) {
+            Menu menu = menuOptional.get();
+            User user = userOptional.get();
+
+            if (exists(menu, user)) {
+                menu.getUsers().remove(user);
+                menuRepository.saveAndFlush(menu);
+            }
+        }
+    }
+
+    private boolean exists(Menu menu, User user) {
+        for (User menuUser : menu.getUsers()) {
+            if (menuUser.getId().equals(user.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
     //******************************************************
     // TEST
     //******************************************************
