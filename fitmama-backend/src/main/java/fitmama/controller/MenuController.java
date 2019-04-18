@@ -1,8 +1,6 @@
 package fitmama.controller;
 
-import fitmama.model.Menu;
-import fitmama.model.User;
-import fitmama.model.UserGroupJoin;
+import fitmama.model.*;
 import fitmama.service.MenuService;
 import fitmama.service.UserGroupJoinService;
 import fitmama.service.UserService;
@@ -21,6 +19,11 @@ public class MenuController {
 	@GetMapping("/api/menus")
 	public List<Menu> findAll() {
 		return menuService.findAll();
+	}
+
+	@GetMapping("/api/menus/short")
+	public Menus findAllShort() {
+		return new Menus(menuService.findAll());
 	}
 
 	@PostMapping("/api/menus/add")

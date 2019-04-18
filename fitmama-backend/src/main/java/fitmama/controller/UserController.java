@@ -2,6 +2,7 @@ package fitmama.controller;
 
 import fitmama.model.User;
 import fitmama.model.UserGroupJoin;
+import fitmama.model.Users;
 import fitmama.repo.UserGroupJoinRepository;
 import fitmama.repo.UserRepository;
 import fitmama.service.UserGroupJoinService;
@@ -30,6 +31,10 @@ public class UserController {
 		return userService.findAll();
 	}
 
+	@GetMapping("/api/users/short")
+	public Users findAllShort() {
+		return new Users(userService.findAll());
+	}
 
 	@GetMapping("/api/user/{id}")
 	public User findById(@PathVariable Long id) {
