@@ -3,10 +3,13 @@ package fitmama.service;
 import fitmama.model.Menu;
 import fitmama.model.MenuDay;
 import fitmama.model.User;
+import fitmama.repo.MenuDayRepository;
 import fitmama.repo.MenuRepository;
 import fitmama.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +26,9 @@ public class MenuService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MenuDayRepository menuDayRepository;
+
     public List<Menu> findAll() {
         return menuRepository.findAll();
     }
@@ -37,6 +43,39 @@ public class MenuService {
 
     public void delete(Long id) {
         menuRepository.deleteById(id);
+    }
+
+    public void addDay(Long menuid, MenuDay menuDay) {
+        Optional<Menu> menuOptional = menuRepository.findById(menuid);
+
+        if (menuOptional.isPresent()) {
+            Menu menu = menuOptional.get();
+            menuDay.setId(null);
+            menuDay.setMenu(menu);
+            menu.getMenuDays().add(menuDay);
+            menuRepository.saveAndFlush(menu);
+        }
+    }
+
+    public void updateDay(Long menuid, MenuDay menuDay) {
+        Optional<Menu> menuOptional = menuRepository.findById(menuid);
+
+        if (menuOptional.isPresent()) {
+            Menu menu = menuOptional.get();
+
+            for (MenuDay day : menu.getMenuDays()) {
+                if (day.getId().equals(menuDay.getId())) {
+                    day.setDay(menuDay.getDay());
+                    day.setName(menuDay.getName());
+                    //day.setContent(menuDay.getContent());
+                    menuDayRepository.saveAndFlush(day);
+                }
+            }
+        }
+    }
+
+    public void removeDay(Long dayid) {
+        menuDayRepository.deleteById(dayid);
     }
 
     public void addUser(Long menuid, Long userid) {
@@ -77,6 +116,8 @@ public class MenuService {
         }
         return false;
     }
+
+
     //******************************************************
     // TEST
     //******************************************************
