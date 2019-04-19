@@ -41,7 +41,7 @@ public class MenuController {
 		return menuService.update(menu);
 	}
 
-	@DeleteMapping("/api/menus/{id}/delete")
+	@DeleteMapping("/api/menus/delete/{id}")
 	public void delete(@PathVariable Long id) {
 		menuService.delete(id);
 	}

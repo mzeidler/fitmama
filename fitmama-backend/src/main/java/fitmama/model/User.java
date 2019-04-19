@@ -47,7 +47,7 @@ public class User implements HasIdAndName {
     private BigDecimal height;
 
     @JsonSerialize(using = IdAndNameOnlySerializer.class)
-    @ManyToMany(mappedBy = "users", cascade=CascadeType.ALL)
+    @ManyToMany(mappedBy = "users", cascade=CascadeType.PERSIST)
     private List<Menu> menus;
 
     @Transient

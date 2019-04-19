@@ -55,7 +55,12 @@ public class MenuService {
     }
 
     public void delete(Long id) {
-        menuRepository.deleteById(id);
+        Optional<Menu> menuDBOpt = menuRepository.findById(id);
+        if (menuDBOpt.isPresent()) {
+            Menu menuDB = menuDBOpt.get();
+            menuDB.getUsers().clear();
+            menuRepository.deleteById(id);
+        }
     }
 
     public void addDay(Long menuid, MenuDay menuDay) {
@@ -135,6 +140,26 @@ public class MenuService {
     // TEST
     //******************************************************
     public String test() {
+
+        if (userRepository.findAll().size() == 0) {
+            User user1 = new User();
+            user1.setFirstName("Hans");
+            user1.setFirstName("Müller");
+            user1.setUsername("hmueller");
+            userRepository.saveAndFlush(user1);
+
+            User user2 = new User();
+            user2.setFirstName("Thomas");
+            user2.setFirstName("Mustermann");
+            user2.setUsername("tmustermann");
+            userRepository.saveAndFlush(user2);
+
+            User user3 = new User();
+            user3.setFirstName("Günter");
+            user3.setFirstName("Bauer");
+            user3.setUsername("gbauer");
+            userRepository.saveAndFlush(user3);
+        }
 
         Menu menu1 = getMenu("First Menu");
         Menu menu2 = getMenu("Second Menu");

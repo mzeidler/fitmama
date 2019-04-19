@@ -26,7 +26,7 @@ public class Menu implements HasIdAndName {
     private List<MenuDay> menuDays;
 
     @JsonSerialize(using = IdAndNameOnlySerializer.class)
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.PERSIST)
     @JoinTable(name = "menu_user",joinColumns = @JoinColumn(name = "menu_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
