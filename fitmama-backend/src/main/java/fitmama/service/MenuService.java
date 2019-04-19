@@ -30,7 +30,7 @@ public class MenuService {
     private MenuDayRepository menuDayRepository;
 
     public List<Menu> findAll() {
-        return menuRepository.findAll();
+        return menuRepository.findAllByOrderByIdAsc();
     }
 
     public Menu find(Long id) {
@@ -52,6 +52,27 @@ public class MenuService {
         }
 
         return menu;
+    }
+
+    public Menu updateUsers(Menu menu) {
+        Optional<Menu> menuDBOpt = menuRepository.findById(menu.getId());
+        if (menuDBOpt.isPresent()) {
+            Menu menuDB = menuDBOpt.get();
+
+            menu.getUsers().forEach(user -> {
+                if (!menuDB.getUsers().contains(user)) {
+                    Optional<User> userDBOpt = userRepository.findById(user.getId());
+                    if (userDBOpt.isPresent()) {
+                        User userDB = userDBOpt.get();
+                        menuDB.getUsers().add(userDB);
+                    }
+                }
+            });
+
+            menuDB.getUsers().retainAll(menu.getUsers());
+            return menuRepository.saveAndFlush(menuDB);
+        }
+        return null;
     }
 
     public void delete(Long id) {

@@ -55,6 +55,10 @@ public class MenuController {
 	public void removeUser(@PathVariable Long menuid, @PathVariable Long userid) {
 		menuService.removeUser(menuid, userid);
 	}
+	@PostMapping("/api/menus/updateusers")
+	public Menu updateUsers(@RequestBody Menu menu) {
+		return menuService.updateUsers(menu);
+	}
 
 	@PostMapping("/api/menus/{menuid}/addday")
 	public void addDay(@PathVariable Long menuid, @RequestBody MenuDay menuDay) {
