@@ -33,12 +33,25 @@ public class MenuService {
         return menuRepository.findAll();
     }
 
+    public Menu find(Long id) {
+        Optional<Menu> menuOpt = menuRepository.findById(id);
+        return menuOpt.isPresent() ? menuOpt.get() : null;
+    }
+
     public Menu add(Menu menu) {
         return menuRepository.saveAndFlush(menu);
     }
 
     public Menu update(Menu menu) {
-        return menuRepository.saveAndFlush(menu);
+
+        Optional<Menu> menuDBOpt = menuRepository.findById(menu.getId());
+        if (menuDBOpt.isPresent()) {
+            Menu menuDB = menuDBOpt.get();
+            menuDB.setName(menu.getName());
+            return menuRepository.saveAndFlush(menuDB);
+        }
+
+        return menu;
     }
 
     public void delete(Long id) {

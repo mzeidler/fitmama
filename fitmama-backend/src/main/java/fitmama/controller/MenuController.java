@@ -21,6 +21,11 @@ public class MenuController {
 		return menuService.findAll();
 	}
 
+	@GetMapping("/api/menus/{id}")
+	public Menu find(@PathVariable Long id) {
+		return menuService.find(id);
+	}
+
 	@GetMapping("/api/menus/short")
 	public Menus findAllShort() {
 		return new Menus(menuService.findAll());
