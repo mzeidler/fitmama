@@ -54,7 +54,24 @@ public class User implements HasIdAndName {
     @Transient
     @Override
     public String getName() {
-        return firstName + " " + lastName;
+        StringBuilder sb = new StringBuilder();
+
+        if (firstName != null) {
+            sb.append(firstName + " ");
+        }
+
+        if (lastName != null) {
+            sb.append(lastName);
+        }
+
+        if (sb.length() == 0 && username != null) {
+            sb.append(username);
+        }
+
+        if (sb.length() == 0) {
+            sb.append("User id=" + id);
+        }
+        return sb.toString();
     }
 
     @Override
