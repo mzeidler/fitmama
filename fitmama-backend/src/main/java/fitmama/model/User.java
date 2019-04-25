@@ -51,6 +51,10 @@ public class User implements HasIdAndName {
     @ManyToMany(mappedBy = "users", cascade=CascadeType.PERSIST)
     private List<Menu> menus;
 
+    @JsonSerialize(using = IdAndNameOnlySerializer.class)
+    @ManyToMany(mappedBy = "users", cascade=CascadeType.PERSIST)
+    private List<Role> roles;
+
     @Transient
     @Override
     public String getName() {
