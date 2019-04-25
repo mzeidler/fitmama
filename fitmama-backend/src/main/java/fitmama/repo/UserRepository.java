@@ -1,6 +1,5 @@
 package fitmama.repo;
 
-import fitmama.model.UserGroupJoin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import fitmama.model.User;
