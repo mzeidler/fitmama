@@ -2,7 +2,6 @@ package fitmama.repo;
 
 import fitmama.model.Measurement;
 import fitmama.model.MeasurementType;
-import fitmama.model.UserGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

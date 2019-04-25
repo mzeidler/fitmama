@@ -1,8 +1,6 @@
 package fitmama.service;
 
 import fitmama.model.Role;
-import fitmama.model.RoleKey;
-import fitmama.model.User;
 import fitmama.repo.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -2,9 +2,7 @@ package fitmama.controller;
 
 import fitmama.model.Measurement;
 import fitmama.model.MeasurementType;
-import fitmama.model.User;
 import fitmama.service.MeasurementService;
-import fitmama.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
