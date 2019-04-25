@@ -73,11 +73,4 @@ public class MenuController {
 		menuService.removeDay(dayid);
 	}
 
-	//******************************************************
-	// TEST
-	//******************************************************
-	@GetMapping("/api/menus/test")
-	public String test() {
-		return menuService.test();
-	}
 }
