@@ -1,11 +1,7 @@
 package fitmama.controller;
 
 import fitmama.model.User;
-import fitmama.model.UserGroupJoin;
 import fitmama.model.Users;
-import fitmama.repo.UserGroupJoinRepository;
-import fitmama.repo.UserRepository;
-import fitmama.service.UserGroupJoinService;
 import fitmama.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,12 +16,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private UserGroupJoinService joinService;
-
-	/**
-	 * Users
-	 */
 	@GetMapping("/api/users")
 	public List<User> findAll() {
 		return userService.findAll();
@@ -49,24 +39,6 @@ public class UserController {
 	@DeleteMapping("/api/user/{id}/delete")
 	public void deleteUser(@PathVariable Long id) {
 		userService.deleteUser(id);
-	}
-
-	/**
-	 * Groups
-	 */
-	@GetMapping("/user/{id}/groups")
-	public List<UserGroupJoin> findGroupsByUserId(@PathVariable Long id) {
-		return joinService.findByUserId(id);
-	}
-
-	@PostMapping("/user/{userid}/join/{groupid}")
-	public void joinToGroup(@PathVariable Long userid, @PathVariable Long groupid) {
-		joinService.join(userid, groupid);
-	}
-
-	@PostMapping("/user/{userid}/leave/{groupid}")
-	public void leaveGroup(@PathVariable Long userid, @PathVariable Long groupid) {
-		joinService.leave(userid, groupid);
 	}
 
 }

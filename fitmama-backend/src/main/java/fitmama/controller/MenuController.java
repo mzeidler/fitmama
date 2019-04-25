@@ -2,8 +2,6 @@ package fitmama.controller;
 
 import fitmama.model.*;
 import fitmama.service.MenuService;
-import fitmama.service.UserGroupJoinService;
-import fitmama.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
