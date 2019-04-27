@@ -14,9 +14,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,17 +115,16 @@ public class FitmamaBackendApplication {
 
 	private List<MenuDay> createMenuDays(Menu menu) {
 		List<MenuDay> menuDays = new ArrayList<>();
-		LocalDate localDate = LocalDate.now();
-		menuDays.add(createMenuDay(Date.valueOf(localDate.minusDays(2)), "MenuDay1", menu));
-		menuDays.add(createMenuDay(Date.valueOf(localDate.minusDays(1)), "MenuDay2", menu));
-		menuDays.add(createMenuDay(Date.valueOf(localDate), "MenuDay3", menu));
-		menuDays.add(createMenuDay(Date.valueOf(localDate.plusDays(1)), "MenuDay4", menu));
-		menuDays.add(createMenuDay(Date.valueOf(localDate.plusDays(2)), "MenuDay5", menu));
-		menuDays.add(createMenuDay(Date.valueOf(localDate.plusDays(3)), "MenuDay6", menu));
+		menuDays.add(createMenuDay("2019-04-10", "MenuDay1", menu));
+		menuDays.add(createMenuDay("2019-04-11", "MenuDay2", menu));
+		menuDays.add(createMenuDay("2019-04-12", "MenuDay3", menu));
+		menuDays.add(createMenuDay("2019-04-13", "MenuDay4", menu));
+		menuDays.add(createMenuDay("2019-04-14", "MenuDay5", menu));
+		menuDays.add(createMenuDay("2019-04-15", "MenuDay6", menu));
 		return menuDays;
 	}
 
-	private MenuDay createMenuDay(Date day, String name, Menu menu) {
+	private MenuDay createMenuDay(String day, String name, Menu menu) {
 		MenuDay menuDay = new MenuDay();
 		menuDay.setContent("Content for " + name);
 		menuDay.setName(name);
