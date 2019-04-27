@@ -3,6 +3,7 @@ package fitmama.controller;
 import fitmama.model.*;
 import fitmama.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,9 +64,14 @@ public class MenuController {
 		return menuService.addDay(menuid, menuDay);
 	}
 
-	@PostMapping("/api/menus/{menuid}/updateday")
-	public void updateDay(@PathVariable Long menuid, @RequestBody MenuDay menuDay) {
-		menuService.updateDay(menuid, menuDay);
+	@PostMapping("/api/menus/updateday")
+	public void updateDay(@RequestBody MenuDay menuDay) {
+		menuService.updateDay(menuDay);
+	}
+
+	@PostMapping("/api/menus/copyday/{dayid}")
+	public MenuDay copyDay(@PathVariable Long dayid, @RequestBody MenuDay menuDay) {
+		return menuService.copyDay(dayid, menuDay);
 	}
 
 	@PostMapping("/api/menus/removeday/{dayid}")
@@ -73,7 +79,7 @@ public class MenuController {
 		menuService.removeDay(dayid);
 	}
 
-	@GetMapping("/api/menuday/content/{menuDayId}")
+	@GetMapping(value = "/api/menuday/content/{menuDayId}", produces = MediaType.TEXT_PLAIN_VALUE )
 	public String getContent(@PathVariable Long menuDayId) {
 		return menuService.getContent(menuDayId);
 	}

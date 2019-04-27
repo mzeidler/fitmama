@@ -91,31 +91,36 @@ public class MenuService {
             Menu menu = menuOptional.get();
             menuDay.setId(null);
             menuDay.setMenu(menu);
-            //menu.getMenuDays().add(menuDay);
             menuDayRepository.saveAndFlush(menuDay);
         }
         return menuDay;
     }
 
-    public void updateDay(Long menuid, MenuDay menuDay) {
-        Optional<Menu> menuOptional = menuRepository.findById(menuid);
+    public void updateDay(MenuDay menuDay) {
+        Optional<MenuDay> menuDayOpt = menuDayRepository.findById(menuDay.getId());
 
-        if (menuOptional.isPresent()) {
-            Menu menu = menuOptional.get();
-
-            for (MenuDay day : menu.getMenuDays()) {
-                if (day.getId().equals(menuDay.getId())) {
-                    day.setDay(menuDay.getDay());
-                    day.setName(menuDay.getName());
-                    //day.setContent(menuDay.getContent());
-                    menuDayRepository.saveAndFlush(day);
-                }
-            }
+        if (menuDayOpt.isPresent()) {
+            MenuDay day = menuDayOpt.get();
+            day.setName(menuDay.getName());
+            menuDayRepository.saveAndFlush(day);
         }
     }
 
     public void removeDay(Long dayid) {
         menuDayRepository.deleteById(dayid);
+    }
+
+    public MenuDay copyDay(Long dayid, MenuDay menuDay) {
+        Optional<MenuDay> menuDayOpt = menuDayRepository.findById(dayid);
+
+        if (menuDayOpt.isPresent()) {
+            MenuDay dayToCopy = menuDayOpt.get();
+            menuDay.setContent(dayToCopy.getContent());
+            menuDay.setName(dayToCopy.getName());
+            menuDay.setMenu(dayToCopy.getMenu());
+            menuDayRepository.saveAndFlush(menuDay);
+        }
+        return menuDay;
     }
 
     public void addUser(Long menuid, Long userid) {
