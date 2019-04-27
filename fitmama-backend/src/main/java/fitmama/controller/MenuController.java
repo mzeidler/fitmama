@@ -59,8 +59,8 @@ public class MenuController {
 	}
 
 	@PostMapping("/api/menus/{menuid}/addday")
-	public void addDay(@PathVariable Long menuid, @RequestBody MenuDay menuDay) {
-		menuService.addDay(menuid, menuDay);
+	public MenuDay addDay(@PathVariable Long menuid, @RequestBody MenuDay menuDay) {
+		return menuService.addDay(menuid, menuDay);
 	}
 
 	@PostMapping("/api/menus/{menuid}/updateday")
@@ -71,6 +71,16 @@ public class MenuController {
 	@PostMapping("/api/menus/removeday/{dayid}")
 	public void removeDay(@PathVariable Long dayid) {
 		menuService.removeDay(dayid);
+	}
+
+	@GetMapping("/api/menuday/content/{menuDayId}")
+	public String getContent(@PathVariable Long menuDayId) {
+		return menuService.getContent(menuDayId);
+	}
+
+	@PostMapping("/api/menuday/content/{menuDayId}")
+	public void setContent(@PathVariable Long menuDayId, @RequestBody String content) {
+		menuService.setContent(menuDayId, content);
 	}
 
 }

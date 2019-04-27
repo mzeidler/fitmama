@@ -84,16 +84,17 @@ public class MenuService {
         }
     }
 
-    public void addDay(Long menuid, MenuDay menuDay) {
+    public MenuDay addDay(Long menuid, MenuDay menuDay) {
         Optional<Menu> menuOptional = menuRepository.findById(menuid);
 
         if (menuOptional.isPresent()) {
             Menu menu = menuOptional.get();
             menuDay.setId(null);
             menuDay.setMenu(menu);
-            menu.getMenuDays().add(menuDay);
-            menuRepository.saveAndFlush(menu);
+            //menu.getMenuDays().add(menuDay);
+            menuDayRepository.saveAndFlush(menuDay);
         }
+        return menuDay;
     }
 
     public void updateDay(Long menuid, MenuDay menuDay) {
@@ -156,4 +157,20 @@ public class MenuService {
         return false;
     }
 
+    public String getContent(Long menuDayId) {
+        Optional<MenuDay> menuDayOpt = menuDayRepository.findById(menuDayId);
+        if (menuDayOpt.isPresent()) {
+            MenuDay menuDay = menuDayOpt.get();
+            return menuDay.getContent();
+        }
+        return null;
+    }
+    public void setContent(Long menuDayId, @RequestBody String content) {
+        Optional<MenuDay> menuDayOpt = menuDayRepository.findById(menuDayId);
+        if (menuDayOpt.isPresent()) {
+            MenuDay menuDay = menuDayOpt.get();
+            menuDay.setContent(content);
+            menuDayRepository.saveAndFlush(menuDay);
+        }
+    }
 }
