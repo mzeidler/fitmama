@@ -33,42 +33,30 @@ public class MenuService {
         return menuRepository.findAllByOrderByIdAsc();
     }
 
-    public Menu find(Long id) {
-        Optional<Menu> menuOpt = menuRepository.findById(id);
-        return menuOpt.isPresent() ? menuOpt.get() : null;
-    }
-
     public Menu add(Menu menu) {
         return menuRepository.saveAndFlush(menu);
     }
 
     public Menu update(Menu menu) {
-
-        Optional<Menu> menuDBOpt = menuRepository.findById(menu.getId());
-        if (menuDBOpt.isPresent()) {
-            Menu menuDB = menuDBOpt.get();
+        Menu menuDB = getMenu(menu.getId());
+        if (menuDB != null) {
             menuDB.setName(menu.getName());
             return menuRepository.saveAndFlush(menuDB);
         }
-
         return menu;
     }
 
     public Menu updateUsers(Menu menu) {
-        Optional<Menu> menuDBOpt = menuRepository.findById(menu.getId());
-        if (menuDBOpt.isPresent()) {
-            Menu menuDB = menuDBOpt.get();
-
+        Menu menuDB = getMenu(menu.getId());
+        if (menuDB != null) {
             menu.getUsers().forEach(user -> {
                 if (!menuDB.getUsers().contains(user)) {
-                    Optional<User> userDBOpt = userRepository.findById(user.getId());
-                    if (userDBOpt.isPresent()) {
-                        User userDB = userDBOpt.get();
+                    User userDB = getUser(user.getId());
+                    if (userDB != null) {
                         menuDB.getUsers().add(userDB);
                     }
                 }
             });
-
             menuDB.getUsers().retainAll(menu.getUsers());
             return menuRepository.saveAndFlush(menuDB);
         }
@@ -76,31 +64,41 @@ public class MenuService {
     }
 
     public void delete(Long id) {
-        Optional<Menu> menuDBOpt = menuRepository.findById(id);
-        if (menuDBOpt.isPresent()) {
-            Menu menuDB = menuDBOpt.get();
-            menuDB.getUsers().clear();
+        Menu menu = getMenu(id);
+        if (menu != null) {
+            menu.getUsers().clear();
             menuRepository.deleteById(id);
         }
     }
 
     public MenuDay addDay(Long menuid, MenuDay menuDay) {
-        Optional<Menu> menuOptional = menuRepository.findById(menuid);
+        Menu menu = getMenu(menuid);
+        if (menu != null) {
 
-        if (menuOptional.isPresent()) {
-            Menu menu = menuOptional.get();
-            menuDay.setId(null);
-            menuDay.setMenu(menu);
-            menuDayRepository.saveAndFlush(menuDay);
+            MenuDay dayFound = null;
+            for (MenuDay day : menu.getMenuDays()) {
+                if (day.getDay().equals(menuDay.getDay())) {
+                    dayFound = day;
+                    break;
+                }
+            }
+
+            if (dayFound != null) {
+                dayFound.setName(menuDay.getName());
+                menuDayRepository.saveAndFlush(dayFound);
+            } else {
+                menuDay.setId(null);
+                menuDay.setMenu(menu);
+                menuDayRepository.saveAndFlush(menuDay);
+            }
         }
+
         return menuDay;
     }
 
     public void updateDay(MenuDay menuDay) {
-        Optional<MenuDay> menuDayOpt = menuDayRepository.findById(menuDay.getId());
-
-        if (menuDayOpt.isPresent()) {
-            MenuDay day = menuDayOpt.get();
+        MenuDay day = getMenuDay(menuDay.getId());
+        if (day != null) {
             day.setName(menuDay.getName());
             menuDayRepository.saveAndFlush(day);
         }
@@ -111,71 +109,72 @@ public class MenuService {
     }
 
     public MenuDay copyDay(Long dayid, MenuDay menuDay) {
-        Optional<MenuDay> menuDayOpt = menuDayRepository.findById(dayid);
-
-        if (menuDayOpt.isPresent()) {
-            MenuDay dayToCopy = menuDayOpt.get();
-            menuDay.setContent(dayToCopy.getContent());
-            menuDay.setName(dayToCopy.getName());
-            menuDay.setMenu(dayToCopy.getMenu());
+        MenuDay daySource = getMenuDay(dayid);
+        if (daySource != null) {
+            menuDay.setContent(daySource.getContent());
+            menuDay.setName(daySource.getName());
+            menuDay.setMenu(daySource.getMenu());
             menuDayRepository.saveAndFlush(menuDay);
         }
         return menuDay;
     }
 
     public void addUser(Long menuid, Long userid) {
-        Optional<Menu> menuOptional = menuRepository.findById(menuid);
-        Optional<User> userOptional = userRepository.findById(userid);
+        Menu menu = getMenu(menuid);
+        User user = getUser(userid);
 
-        if (menuOptional.isPresent() && userOptional.isPresent()) {
-            Menu menu = menuOptional.get();
-            User user = userOptional.get();
-
-            if (!exists(menu, user)) {
-                menu.getUsers().add(user);
-                menuRepository.saveAndFlush(menu);
-            }
+        if (!exists(menu, user)) {
+            menu.getUsers().add(user);
+            menuRepository.saveAndFlush(menu);
         }
     }
 
     public void removeUser(Long menuid, Long userid) {
-        Optional<Menu> menuOptional = menuRepository.findById(menuid);
-        Optional<User> userOptional = userRepository.findById(userid);
+        Menu menu = getMenu(menuid);
+        User user = getUser(userid);
 
-        if (menuOptional.isPresent() && userOptional.isPresent()) {
-            Menu menu = menuOptional.get();
-            User user = userOptional.get();
-
-            if (exists(menu, user)) {
-                menu.getUsers().remove(user);
-                menuRepository.saveAndFlush(menu);
-            }
+        if (exists(menu, user)) {
+            menu.getUsers().remove(user);
+            menuRepository.saveAndFlush(menu);
         }
     }
 
     private boolean exists(Menu menu, User user) {
-        for (User menuUser : menu.getUsers()) {
-            if (menuUser.getId().equals(user.getId())) {
-                return true;
+        if (menu != null && user != null) {
+            for (User menuUser : menu.getUsers()) {
+                if (menuUser.getId().equals(user.getId())) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     public String getContent(Long menuDayId) {
-        Optional<MenuDay> menuDayOpt = menuDayRepository.findById(menuDayId);
-        if (menuDayOpt.isPresent()) {
-            MenuDay menuDay = menuDayOpt.get();
-            return menuDay.getContent();
-        }
-        return null;
+        MenuDay day = getMenuDay(menuDayId);
+        return day != null ? day.getContent() : null;
     }
-    public void setContent(Long menuDayId, @RequestBody String content) {
-        Optional<MenuDay> menuDayOpt = menuDayRepository.findById(menuDayId);
-        if (menuDayOpt.isPresent()) {
-            MenuDay menuDay = menuDayOpt.get();
-            menuDay.setContent(content);
-            menuDayRepository.saveAndFlush(menuDay);
+
+    public void setContent(Long menuDayId, String content) {
+        MenuDay day = getMenuDay(menuDayId);
+        if (day != null) {
+            day.setContent(content);
+            menuDayRepository.saveAndFlush(day);
         }
+    }
+
+    public Menu getMenu(Long id) {
+        Optional<Menu> menuOpt = menuRepository.findById(id);
+        return menuOpt.isPresent() ? menuOpt.get() : null;
+    }
+
+    public MenuDay getMenuDay(Long id) {
+        Optional<MenuDay> menuDayOpt = menuDayRepository.findById(id);
+        return menuDayOpt.isPresent() ? menuDayOpt.get() : null;
+    }
+
+    public User getUser(Long id) {
+        Optional<User> userOpt = userRepository.findById(id);
+        return userOpt.isPresent() ? userOpt.get() : null;
     }
 }

@@ -22,7 +22,7 @@ public class MenuController {
 
 	@GetMapping("/api/menus/{id}")
 	public Menu find(@PathVariable Long id) {
-		return menuService.find(id);
+		return menuService.getMenu(id);
 	}
 
 	@GetMapping("/api/menus/short")
