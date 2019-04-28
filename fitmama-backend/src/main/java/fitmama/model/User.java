@@ -49,6 +49,7 @@ public class User implements HasIdAndName {
 
     @JsonSerialize(using = IdAndNameOnlySerializer.class)
     @ManyToMany(mappedBy = "users", cascade=CascadeType.PERSIST)
+    @OrderBy("name ASC")
     private List<Menu> menus;
 
     @JsonSerialize(using = IdAndNameOnlySerializer.class)
@@ -57,6 +58,7 @@ public class User implements HasIdAndName {
 
     @JsonSerialize(using = IdAndNameOnlySerializer.class)
     @ManyToMany(mappedBy = "users", cascade=CascadeType.PERSIST)
+    @OrderBy("name ASC")
     private List<Training> trainings;
 
     @Transient
