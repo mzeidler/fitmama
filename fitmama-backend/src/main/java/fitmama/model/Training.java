@@ -1,6 +1,7 @@
 package fitmama.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import fitmama.jpa.HasIdAndName;
 import fitmama.jpa.IdAndNameOnlySerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Training {
+public class Training implements HasIdAndName {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
