@@ -23,13 +23,11 @@ public class Role implements HasIdAndName {
     @Enumerated(EnumType.STRING)
     private RoleKey roleKey;
 
+    private String name;
+
     @JsonSerialize(using = IdAndNameOnlySerializer.class)
     @ManyToMany(cascade=CascadeType.PERSIST)
     @JoinTable(name = "role_user",joinColumns = @JoinColumn(name = "role_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
-    @Transient
-    public String getName() {
-        return roleKey.name();
-    }
 }

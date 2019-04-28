@@ -3,6 +3,7 @@ package fitmama.model;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fitmama.jpa.HasIdAndName;
 import fitmama.jpa.IdAndNameOnlySerializer;
+import fitmama.jpa.RoleSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,7 +53,7 @@ public class User implements HasIdAndName {
     @OrderBy("name ASC")
     private List<Menu> menus;
 
-    @JsonSerialize(using = IdAndNameOnlySerializer.class)
+    @JsonSerialize(using = RoleSerializer.class)
     @ManyToMany(mappedBy = "users", cascade=CascadeType.PERSIST)
     private List<Role> roles;
 
