@@ -45,91 +45,30 @@ public class FitmamaBackendApplication {
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
 
-
+			List<Role> roles = roleService.findAll();
+			if (roles.isEmpty()) {
+				roleService.saveRole(createRole(RoleKey.ADMIN, "Administratorica"));
+				roleService.saveRole(createRole(RoleKey.EXERCISE_ADMIN, "Trenerica"));
+				roleService.saveRole(createRole(RoleKey.MENU_ADMIN, "Nutricionistica"));
+				roleService.saveRole(createRole(RoleKey.USER, "Korisnica"));
+			}
 
 			List<User> users = userService.findAll();
 			if (users.isEmpty()) {
-				User user1 = createUser("Hans","Müller", "hmueller");
-				User user2 = createUser("Thomas","Mustermann", "tmustermann");
-				User user3 = createUser("Günter","Bauer", "gbauer");
-				User admin = createUser("Administrator",null, "admin");
-
-				userService.saveUser(user1);
-				userService.saveUser(user2);
-				userService.saveUser(user3);
+				User admin = new User();
+				admin.setLastName("Administrator");
+				admin.setUsername("admin");
 				userService.saveUser(admin);
 			}
-
-			List<Role> roles = roleService.findAll();
-			if (roles.isEmpty()) {
-				roleService.saveRole(createRole(RoleKey.ADMIN));
-				roleService.saveRole(createRole(RoleKey.EXERCISE_ADMIN));
-				roleService.saveRole(createRole(RoleKey.MENU_ADMIN));
-				roleService.saveRole(createRole(RoleKey.USER));
-
-				roleService.findAll().forEach(role -> {
-					role.setUsers(userService.findAll());
-					roleService.saveRole(role);
-				});
-			}
-
-			List<Menu> menus = menuService.findAll();
-			if (menus.isEmpty()) {
-				Menu menu1 = createMenu("First Menu");
-				Menu menu2 = createMenu("Second Menu");
-				Menu menu3 = createMenu("Third Menu");
-
-				menuService.add(menu1);
-				menuService.add(menu2);
-				menuService.add(menu3);
-
-				menuService.findAll().forEach(menu -> {
-					menu.setUsers(userService.findAll());
-					menuService.add(menu);
-				});
-			}
-
 		};
 	}
 
-	private Role createRole(RoleKey key) {
+	private Role createRole(RoleKey key, String name) {
 		Role role = new Role();
 		role.setRoleKey(key);
+		role.setName(name);
 		return role;
 	}
 
-	private User createUser(String firstname, String lastname, String username) {
-		User user = new User();
-		user.setFirstName(firstname);
-		user.setLastName(lastname);
-		user.setUsername(username);
-		return user;
-	}
 
-	private Menu createMenu(String name) {
-		Menu menu = new Menu();
-		menu.setName(name);
-		menu.setMenuDays(createMenuDays(menu));
-		return menu;
-	}
-
-	private List<MenuDay> createMenuDays(Menu menu) {
-		List<MenuDay> menuDays = new ArrayList<>();
-		menuDays.add(createMenuDay("2019-04-10", "MenuDay1", menu));
-		menuDays.add(createMenuDay("2019-04-11", "MenuDay2", menu));
-		menuDays.add(createMenuDay("2019-04-12", "MenuDay3", menu));
-		menuDays.add(createMenuDay("2019-04-13", "MenuDay4", menu));
-		menuDays.add(createMenuDay("2019-04-14", "MenuDay5", menu));
-		menuDays.add(createMenuDay("2019-04-15", "MenuDay6", menu));
-		return menuDays;
-	}
-
-	private MenuDay createMenuDay(String day, String name, Menu menu) {
-		MenuDay menuDay = new MenuDay();
-		menuDay.setContent("Content for " + name);
-		menuDay.setName(name);
-		menuDay.setMenu(menu);
-		menuDay.setDay(day);
-		return menuDay;
-	}
 }
