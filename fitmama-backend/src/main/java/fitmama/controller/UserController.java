@@ -1,5 +1,6 @@
 package fitmama.controller;
 
+import fitmama.model.Menu;
 import fitmama.model.User;
 import fitmama.model.Users;
 import fitmama.service.UserService;
@@ -38,6 +39,21 @@ public class UserController {
 	@DeleteMapping("/api/user/{id}/delete")
 	public void deleteUser(@PathVariable Long id) {
 		userService.deleteUser(id);
+	}
+
+	@PostMapping("/api/users/updatetrainings")
+	public User updateTrainings(@RequestBody User user) {
+		return userService.updateTrainings(user);
+	}
+
+	@PostMapping("/api/users/updatemenus")
+	public User updateMenus(@RequestBody User user) {
+		return userService.updateMenus(user);
+	}
+
+	@PostMapping("/api/users/updateroles")
+	public User updateRoles(@RequestBody User user) {
+		return userService.updateRoles(user);
 	}
 
 }
