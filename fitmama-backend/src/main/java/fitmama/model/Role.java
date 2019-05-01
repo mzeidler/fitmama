@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -30,4 +31,17 @@ public class Role implements HasIdAndName {
     @JoinTable(name = "role_user",joinColumns = @JoinColumn(name = "role_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role role = (Role) o;
+        return Objects.equals(id, role.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
 }

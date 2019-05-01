@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -29,4 +30,18 @@ public class Training implements HasIdAndName {
     @ManyToMany(cascade=CascadeType.PERSIST)
     @JoinTable(name = "training_user",joinColumns = @JoinColumn(name = "training_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Training training = (Training) o;
+        return Objects.equals(id, training.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
 }
