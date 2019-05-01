@@ -36,8 +36,8 @@ public class UserController {
 		return userService.saveUser(user);
 	}
 
-	@DeleteMapping("/api/user/{id}/delete")
-	public void deleteUser(@PathVariable Long id) {
+	@DeleteMapping("/api/users/delete/{id}")
+	public void delete(@PathVariable Long id) {
 		userService.deleteUser(id);
 	}
 

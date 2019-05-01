@@ -61,6 +61,23 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
+        User userDB = getUser(id);
+
+        for (Role role : userDB.getRoles()) {
+            role.getUsers().remove(userDB);
+            roleRepository.saveAndFlush(role);
+        }
+
+        for (Menu menu : userDB.getMenus()) {
+            menu.getUsers().remove(userDB);
+            menuRepository.saveAndFlush(menu);
+        }
+
+        for (Training training : userDB.getTrainings()) {
+            training.getUsers().remove(userDB);
+            trainingRepository.saveAndFlush(training);
+        }
+
         userRepository.deleteById(id);
     }
 
