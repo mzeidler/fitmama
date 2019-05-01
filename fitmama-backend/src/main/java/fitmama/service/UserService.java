@@ -42,7 +42,14 @@ public class UserService {
 
     public User saveUser(User user) {
         if (user.getId() == null) {
-            return userRepository.saveAndFlush(user);
+            User userDB = userRepository.saveAndFlush(user);
+
+            Role userRole = roleRepository.findByRoleKey(RoleKey.USER).get(0);
+            userRole.getUsers().add(userDB);
+            roleRepository.saveAndFlush(userRole);
+
+            userDB.getRoles().add(userRole);
+            return userDB;
         } else {
             User userDB = getUser(user.getId());
             userDB.setUsername(user.getUsername());
