@@ -55,6 +55,7 @@ public class User implements HasIdAndName {
 
     @JsonSerialize(using = RoleSerializer.class)
     @ManyToMany(mappedBy = "users", cascade=CascadeType.PERSIST)
+    @OrderBy("name ASC")
     private List<Role> roles;
 
     @JsonSerialize(using = IdAndNameOnlySerializer.class)
