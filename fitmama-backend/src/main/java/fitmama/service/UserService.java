@@ -1,8 +1,6 @@
 package fitmama.service;
 
-import fitmama.model.Menu;
-import fitmama.model.Role;
-import fitmama.model.Training;
+import fitmama.model.*;
 import fitmama.repo.MenuRepository;
 import fitmama.repo.RoleRepository;
 import fitmama.repo.TrainingRepository;
@@ -10,7 +8,6 @@ import fitmama.util.ListDiff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fitmama.model.User;
 import fitmama.repo.UserRepository;
 
 import java.util.List;
@@ -44,7 +41,23 @@ public class UserService {
     }
 
     public User saveUser(User user) {
-        return userRepository.saveAndFlush(user);
+        if (user.getId() == null) {
+            return userRepository.saveAndFlush(user);
+        } else {
+            User userDB = getUser(user.getId());
+            userDB.setUsername(user.getUsername());
+            userDB.setFirstName(user.getFirstName());
+            userDB.setLastName(user.getLastName());
+            userDB.setAddress(user.getAddress());
+            userDB.setCity(user.getCity());
+            userDB.setEmail(user.getEmail());
+            userDB.setHeight(user.getHeight());
+            userDB.setBirthDate(user.getBirthDate());
+            userDB.setMobile(user.getMobile());
+            userDB.setZipcode(user.getZipcode());
+            userDB.setGender(user.getGender());
+            return userRepository.saveAndFlush(userDB);
+        }
     }
 
     public void deleteUser(Long id) {

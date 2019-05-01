@@ -44,7 +44,7 @@ public class User implements HasIdAndName {
 
     private String email;
 
-    private Date birthDate;
+    private String birthDate;
 
     private BigDecimal height;
 
