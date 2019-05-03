@@ -18,15 +18,26 @@ public class Measurement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private MeasurementUnit unit;
+    private String day;
 
-    @Enumerated(EnumType.STRING)
-    private MeasurementType type;
+    private BigDecimal value1; //opseg grudi
 
-    private BigDecimal value;
+    private BigDecimal value2; //opseg struka
+
+    private BigDecimal value3; //opseg bokova
+
+    private BigDecimal value4; //opseg bedara
+
+    private BigDecimal value5; //opseg desnog bedra
+
+    private BigDecimal value6; //opseg desnog lista
+
+    private BigDecimal value7; //opseg desne nadlaktice
+
+    private BigDecimal value8; //broj kilograma
 
     @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 }

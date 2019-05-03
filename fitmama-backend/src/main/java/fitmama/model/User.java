@@ -1,5 +1,6 @@
 package fitmama.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fitmama.jpa.HasIdAndName;
 import fitmama.jpa.IdAndNameOnlySerializer;
@@ -62,6 +63,10 @@ public class User implements HasIdAndName {
     @ManyToMany(mappedBy = "users", cascade=CascadeType.PERSIST)
     @OrderBy("name ASC")
     private List<Training> trainings;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Measurement> measurements;
 
     @Transient
     @Override
