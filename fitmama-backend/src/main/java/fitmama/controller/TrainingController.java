@@ -1,5 +1,6 @@
 package fitmama.controller;
 
+import fitmama.model.DayContent;
 import fitmama.model.Training;
 import fitmama.model.TrainingDay;
 import fitmama.model.Trainings;
@@ -87,6 +88,10 @@ public class TrainingController {
         return trainingService.getContent(trainingDayId);
     }
 
+    @GetMapping(value = "/api/trainings/content/{trainingId}/{day}" )
+    public DayContent getDayContent(@PathVariable Long trainingId, @PathVariable String day) {
+        return trainingService.getDayContent(trainingId, day);
+    }
     @PostMapping("/api/trainingday/content/{trainingDayId}")
     public void setContent(@PathVariable Long trainingDayId, @RequestBody String content) {
         trainingService.setContent(trainingDayId, content);

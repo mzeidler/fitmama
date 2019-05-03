@@ -146,6 +146,20 @@ public class TrainingService {
         return day != null ? day.getContent() : null;
     }
 
+    public DayContent getDayContent(Long trainingId, String day) {
+        Training training = getTraining(trainingId);
+        List<TrainingDay> trainingDayList = trainingDayRepository.findByTrainingAndDay(training, day);
+        if (!trainingDayList.isEmpty()) {
+            TrainingDay trainingDay = trainingDayList.get(0);
+            DayContent dayContent = new DayContent();
+            dayContent.setName(trainingDay.getName());
+            dayContent.setContent(trainingDay.getContent());
+            dayContent.setDay(day);
+            return dayContent;
+        }
+        return null;
+    }
+
     public void setContent(Long trainingDayId, String content) {
         TrainingDay day = getTrainingDay(trainingDayId);
         if (day != null) {

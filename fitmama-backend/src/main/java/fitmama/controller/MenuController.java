@@ -84,6 +84,11 @@ public class MenuController {
 		return menuService.getContent(menuDayId);
 	}
 
+	@GetMapping(value = "/api/menus/content/{menuId}/{day}" )
+	public DayContent getDayContent(@PathVariable Long menuId, @PathVariable String day) {
+		return menuService.getDayContent(menuId, day);
+	}
+
 	@PostMapping("/api/menuday/content/{menuDayId}")
 	public void setContent(@PathVariable Long menuDayId, @RequestBody String content) {
 		menuService.setContent(menuDayId, content);

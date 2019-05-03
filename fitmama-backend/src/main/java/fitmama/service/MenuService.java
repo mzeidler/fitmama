@@ -1,5 +1,6 @@
 package fitmama.service;
 
+import fitmama.model.DayContent;
 import fitmama.model.Menu;
 import fitmama.model.MenuDay;
 import fitmama.model.User;
@@ -8,12 +9,7 @@ import fitmama.repo.MenuRepository;
 import fitmama.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -154,6 +150,21 @@ public class MenuService {
         MenuDay day = getMenuDay(menuDayId);
         return day != null ? day.getContent() : null;
     }
+
+    public DayContent getDayContent(Long menuId, String day) {
+        Menu menu = getMenu(menuId);
+        List<MenuDay> menuDayList = menuDayRepository.findByMenuAndDay(menu, day);
+        if (!menuDayList.isEmpty()) {
+            MenuDay menuDay = menuDayList.get(0);
+            DayContent dayContent = new DayContent();
+            dayContent.setName(menuDay.getName());
+            dayContent.setContent(menuDay.getContent());
+            dayContent.setDay(day);
+            return dayContent;
+        }
+        return null;
+    }
+
 
     public void setContent(Long menuDayId, String content) {
         MenuDay day = getMenuDay(menuDayId);
