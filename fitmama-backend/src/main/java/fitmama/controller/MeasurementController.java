@@ -29,7 +29,6 @@ public class MeasurementController {
 		return measurementService.update(measurement);
 	}
 
-	// TODO: Refactor
 	@DeleteMapping("/api/measurements/delete/{measurementId}")
 	public void delete(@PathVariable Long measurementId) {
 		measurementService.delete(measurementId);

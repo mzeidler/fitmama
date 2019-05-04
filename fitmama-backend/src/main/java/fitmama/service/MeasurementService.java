@@ -40,6 +40,7 @@ public class MeasurementService {
     public Measurement update(Measurement measurement) {
         Measurement measurementDB = getMeasurement(measurement.getId());
         if (measurementDB != null) {
+            measurementDB.setDay(measurement.getDay());
             measurementDB.setValue1(measurement.getValue1());
             measurementDB.setValue2(measurement.getValue2());
             measurementDB.setValue3(measurement.getValue3());
