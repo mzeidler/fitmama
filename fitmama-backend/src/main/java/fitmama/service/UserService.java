@@ -43,6 +43,7 @@ public class UserService {
 
     public User saveUser(User user) {
         if (user.getId() == null) {
+            user.setPassword(user.getUsername());
             User userDB = userRepository.saveAndFlush(user);
 
             Role userRole = roleRepository.findByRoleKey(RoleKey.USER).get(0);
