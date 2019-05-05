@@ -56,4 +56,9 @@ public class UserController {
 		return userService.updateRoles(user);
 	}
 
+	@PostMapping("/api/user/authenticate")
+	public User authenticate(@RequestBody User user) {
+		return userService.getAuthenticatedUser(user);
+	}
+
 }

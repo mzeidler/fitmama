@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import fitmama.repo.UserRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -169,4 +170,14 @@ public class UserService {
         return roleOpt.isPresent() ? roleOpt.get() : null;
     }
 
+    public User getAuthenticatedUser(User user) {
+        List<User> users = userRepository.findByUsername(user.getUsername());
+        if (!users.isEmpty()) {
+            User userDB = users.get(0);
+            if (Objects.equals(userDB.getPassword(), user.getPassword())) {
+                return userDB;
+            }
+        }
+        return null;
+    }
 }
