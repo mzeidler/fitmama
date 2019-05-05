@@ -49,6 +49,8 @@ public class User implements HasIdAndName {
 
     private BigDecimal height;
 
+    private String password;
+
     @JsonSerialize(using = IdAndNameOnlySerializer.class)
     @ManyToMany(mappedBy = "users", cascade=CascadeType.PERSIST)
     @OrderBy("name ASC")
