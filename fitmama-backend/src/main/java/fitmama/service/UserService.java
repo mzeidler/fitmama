@@ -43,7 +43,6 @@ public class UserService {
 
     public User saveUser(User user) {
         if (user.getId() == null) {
-            user.setPassword(user.getUsername());
             User userDB = userRepository.saveAndFlush(user);
 
             Role userRole = roleRepository.findByRoleKey(RoleKey.USER).get(0);
@@ -65,6 +64,7 @@ public class UserService {
             userDB.setMobile(user.getMobile());
             userDB.setZipcode(user.getZipcode());
             userDB.setGender(user.getGender());
+            userDB.setPassword(user.getPassword());
             return userRepository.saveAndFlush(userDB);
         }
     }
