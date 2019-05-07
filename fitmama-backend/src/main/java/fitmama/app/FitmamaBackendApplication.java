@@ -61,6 +61,12 @@ public class FitmamaBackendApplication {
 				userService.saveUser(admin);
 			}
 		};
+
+		// MySQL
+		// schema collation: latin2 - default collation
+		// table collation: latin2 - latin2_croatian_ci
+		// user.address collation: utf8 - default collation
+		// spring.datasource.url=jdbc:mysql://localhost:3306/fitmama?serverTimezone=UTC&useUnicode=yes&characterEncoding=utf-8
 	}
 
 	private Role createRole(RoleKey key, String name) {
